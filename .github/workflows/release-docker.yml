@@ -41,3 +41,5 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           annotations: ${{ steps.meta.outputs.annotations }}
+          provenance: false # Disable provenance to avoid unknown/unknown
+          sbom: false # Disable sbom to avoid unknown/unknown
