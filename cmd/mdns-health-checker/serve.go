@@ -20,14 +20,14 @@ import (
 )
 
 type Probe struct {
-	Interval         time.Duration `name:"interval" env:"PROBE_INTERVAL" default:"30s" help:"The interval between each full cycle of mDNS host checks (e.g., 1s, 5m, 1h)."`
-	Timeout          time.Duration `name:"timeout" env:"PROBE_TIMEOUT" default:"10s" help:"The maximum duration to wait for an mDNS probe response from a single host (e.g., 1s, 5m, 1h)."`
-	ProbeConcurrency int           `name:"concurrency" env:"PROBE_CONCURRENCY" default:"10" help:"The maximum number of mDNS probes to run concurrently."`
-	UseIPv4          bool          `name:"ipv4" env:"PROBE_USE_IPV4" default:"true" help:"Enable mDNS probing over IPv4. Enabled by default."`
-	IPv4Addr         string        `name:"ipv4.addr" env:"PROBE_IPV4_ADDR" default:"224.0.0.0:5353" help:"IPv4 address to bind to for mDNS probing."`
-	UseIPv6          bool          `name:"ipv6" env:"PROBE_USE_IPV6" default:"true" help:"Enable mDNS probing over IPv6. Enabled by default."`
-	IPv6Addr         string        `name:"ipv6.addr" env:"PROBE_IPV6_ADDR" default:"[FF02::]:5353" help:"IPv6 address to bind to for mDNS probing."`
-	Hosts            []string      `name:"hosts" env:"PROBE_HOSTS" required:"" sep:"," help:"A comma-separated list of mDNS hostnames (e.g., 'mydevice.local,another.local') to check."`
+	Interval    time.Duration `name:"interval" env:"PROBE_INTERVAL" default:"30s" help:"The interval between each full cycle of mDNS host checks (e.g., 1s, 5m, 1h)."`
+	Timeout     time.Duration `name:"timeout" env:"PROBE_TIMEOUT" default:"10s" help:"The maximum duration to wait for an mDNS probe response from a single host (e.g., 1s, 5m, 1h)."`
+	Concurrency int           `name:"concurrency" env:"PROBE_CONCURRENCY" default:"10" help:"The maximum number of mDNS probes to run concurrently."`
+	UseIPv4     bool          `name:"ipv4" env:"PROBE_USE_IPV4" default:"true" help:"Enable mDNS probing over IPv4. Enabled by default."`
+	IPv4Addr    string        `name:"ipv4.addr" env:"PROBE_IPV4_ADDR" default:"224.0.0.0:5353" help:"IPv4 address to bind to for mDNS probing."`
+	UseIPv6     bool          `name:"ipv6" env:"PROBE_USE_IPV6" default:"true" help:"Enable mDNS probing over IPv6. Enabled by default."`
+	IPv6Addr    string        `name:"ipv6.addr" env:"PROBE_IPV6_ADDR" default:"[FF02::]:5353" help:"IPv6 address to bind to for mDNS probing."`
+	Hosts       []string      `name:"hosts" env:"PROBE_HOSTS" required:"" sep:"," help:"A comma-separated list of mDNS hostnames (e.g., 'mydevice.local,another.local') to check."`
 }
 
 type Metrics struct {
@@ -63,7 +63,7 @@ func serve(cli *CLI) error {
 		cli.Serve.Probe.UseIPv6,
 		cli.Serve.Probe.IPv4Addr,
 		cli.Serve.Probe.IPv6Addr,
-		cli.Serve.Probe.ProbeConcurrency,
+		cli.Serve.Probe.Concurrency,
 	)
 	if err != nil {
 		logger.ErrorContext(ctx, "Failed to create mdns checker", logging.Error(err))
@@ -216,7 +216,7 @@ func (c *CLI) Validate() error {
 		errs = append(errs, fmt.Errorf("--probe.interval: must be greater than --probe.timeout"))
 	}
 
-	if p.ProbeConcurrency <= 0 {
+	if p.Concurrency <= 0 {
 		errs = append(errs, fmt.Errorf("--probe.concurrency: must be greater than zero"))
 	}
 
