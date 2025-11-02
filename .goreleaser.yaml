@@ -13,15 +13,28 @@ builds:
       - CGO_ENABLED=0
     goos:
       - linux
+      - freebsd
     goarch:
+      - 386
       - amd64
+      - arm
       - arm64
+      - mips
+      - mips64
+      - mipsle
+    goarm:
+      - 6
+      - 7
+    gomips:
+      - hardfloat
+      - softfloat
     ldflags:
       - -s -w
 
 archives:
   - formats: [tar.gz]
-    name_template: "{{ .ProjectName }}-v{{ .Version }}-{{ .Os }}-{{ .Arch }}"
+    name_template: >-
+      {{ .Binary }}-v{{ .Version }}-{{ .Os }}-{{ .Arch }}{{ with .Arm }}v{{ . }}{{ end }}{{ with .Mips }}-{{ . }}{{ end }}
 
 changelog:
   sort: asc
