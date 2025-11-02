@@ -1,5 +1,6 @@
 name: Release Docker image
 on:
+  workflow_dispatch:
   push:
     tags:
       - "v*"
