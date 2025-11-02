@@ -2,32 +2,32 @@
 
 Periodic mDNS probe runner that verifies the reachability of a list of `.local` hosts and exports their status as Prometheus metrics. It is intended to be deployed alongside devices that only advertise themselves over mDNS (e.g. home lab gear, printers, smart-home hubs) so their availability can be monitored just like any other service.
 
-## Highlights
+## :sparkles: Highlights
 
 - Polls every configured host on a fixed cadence with independent timeouts.
 - Exposes a Prometheus scrape endpoint.
 
-## How It Works
+## :gear: How It Works
 
 1. `mdns-health-checker` starts an mDNS client bound to the requested multicast addresses.
 2. A worker kicks off probe batches on the requested interval (the first run happens immediately after start-up).
 3. Each host is queried.
 4. Results are published to the Prometheus exporter, updating per-host and aggregate gauges.
 
-## Getting Started
+## :rocket: Getting Started
 
-### Prerequisites
+### :white_check_mark: Prerequisites
 
 - Go 1.25 or newer (managed automatically via [`mise`](https://mise.jdx.dev/) if you have it installed).
 - Access to the multicast interfaces you want to probe (default: `224.0.0.0:5353` for IPv4 and `[FF02::]:5353` for IPv6).
 
-### Build
+### :hammer_and_wrench: Build
 
 ```sh
 go build -o bin/mdns-health-checker ./cmd/mdns-health-checker
 ```
 
-### Run
+### :arrow_forward: Run
 
 `--probe.hosts` (or `PROBE_HOSTS`) is required; pass a comma-separated list of mDNS hostnames without spaces.
 
@@ -41,7 +41,7 @@ Alternatively, configure the same settings with environment variables:
 PROBE_HOSTS=printer.local,lab-switch.local ./bin/mdns-health-checker
 ```
 
-### Docker
+### :whale: Docker
 
 A multi-architecture container image is published to the GitHub Container Registry (`ghcr.io/khmm12/mdns-health-checker`).
 
@@ -73,7 +73,7 @@ services:
 
 Expose the metrics endpoint to Prometheus by pointing the scrape job to `http://<host>:8080/metrics`.
 
-### Configuration
+### :wrench: Configuration
 
 All options can be supplied via CLI flags (shown below) or their corresponding environment variables.
 
@@ -93,7 +93,7 @@ All options can be supplied via CLI flags (shown below) or their corresponding e
 
 Run `mdns-health-checker --help` to see usage text.
 
-## Observability
+## :bar_chart: Observability
 
 - **Health check**: `GET /health` returns `200 OK` with body `OK`.
 - **Metrics** (all prefixed with `mdns_`):
@@ -105,13 +105,13 @@ Run `mdns-health-checker --help` to see usage text.
 
 Scrape `http://<addr>/metrics` from Prometheus. Each scrape reflects the most recent probe cycle.
 
-## Development
+## :test_tube: Development
 
 - Align local tool versions with `mise install`.
 - Format and lint with `golangci-lint run` (see `.golangci.yml` for enabled checks and formatters).
 - Run the binary under `go run ./cmd/mdns-health-checker` during development; the worker runs immediately, which is helpful for quick feedback.
 
-## Limitations & Tips
+## :bulb: Limitations & Tips
 
 - The process must bind to the multicast addresses you choose.
 - A host that never responded is considered `down` until the next successful probe; there is no exponential backoff.
