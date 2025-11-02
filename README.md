@@ -41,6 +41,38 @@ Alternatively, configure the same settings with environment variables:
 PROBE_HOSTS=printer.local,lab-switch.local ./bin/mdns-health-checker
 ```
 
+### Docker
+
+A multi-architecture container image is published to the GitHub Container Registry (`ghcr.io/khmm12/mdns-health-checker`).
+
+Run the container with environment variables for configuration. mDNS requires access to the local multicast interface, so prefer `--network host` (Linux) or the equivalent bridge setup that forwards multicast packets.
+
+```sh
+docker run --rm \
+  --name mdns-health-checker \
+  --network host \
+  -e PROBE_HOSTS=printer.local,lab-switch.local \
+  -e PROBE_INTERVAL=1m \
+  -e PROBE_TIMEOUT=30s \
+  ghcr.io/khmm12/mdns-health-checker:latest
+```
+
+Using Docker Compose:
+
+```yaml
+services:
+  mdns-health-checker:
+    image: ghcr.io/khmm12/mdns-health-checker:latest
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      PROBE_HOSTS: printer.local,lab-switch.local
+      PROBE_INTERVAL: 5m
+      PROBE_TIMEOUT: 30s
+```
+
+Expose the metrics endpoint to Prometheus by pointing the scrape job to `http://<host>:8080/metrics`.
+
 ### Configuration
 
 All options can be supplied via CLI flags (shown below) or their corresponding environment variables.
