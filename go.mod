@@ -2,7 +2,7 @@ module github.com/khmm12/mdns-health-checker
 
 go 1.25
 
-toolchain go1.25.3
+toolchain go1.25.4
 
 require (
 	github.com/alecthomas/kong v1.12.1
