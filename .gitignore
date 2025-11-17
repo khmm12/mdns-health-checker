@@ -5,6 +5,9 @@
 .vscode
 .idea
 
+# Cache
+.gocache/
+
 # Artifacts
 bin/
 dist/
