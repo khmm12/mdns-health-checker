@@ -241,7 +241,7 @@ func (c *CLI) Validate() error {
 	}
 
 	if !isTCPAddr(s.Metrics.Addr) {
-		errs = append(errs, fmt.Errorf("--metrics.addr: must be a valid tcp listening address (e.g. 0.0.0.0:8080)"))
+		errs = append(errs, fmt.Errorf("--metrics.addr: must be a valid tcp listening address e.g. 0.0.0.0:8080"))
 	}
 
 	if !isLogLevel(s.LogLevel) {
