@@ -7,10 +7,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/khmm12/mdns-health-checker/internal/ports"
-	portsm "github.com/khmm12/mdns-health-checker/internal/ports/mocks"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
+
+	"github.com/khmm12/mdns-health-checker/internal/ports"
+	portsm "github.com/khmm12/mdns-health-checker/internal/ports/mocks"
 )
 
 func TestCheckMDNSUseCase_CountsUpAndDownState(t *testing.T) {
