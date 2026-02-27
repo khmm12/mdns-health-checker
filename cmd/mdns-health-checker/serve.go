@@ -20,25 +20,25 @@ import (
 )
 
 type Probe struct {
-	Interval    time.Duration `name:"interval" env:"PROBE_INTERVAL" default:"30s" help:"The interval between each full cycle of mDNS host checks (e.g., 1s, 5m, 1h)."`
-	Timeout     time.Duration `name:"timeout" env:"PROBE_TIMEOUT" default:"10s" help:"The maximum duration to wait for an mDNS probe response from a single host (e.g., 1s, 5m, 1h)."`
-	Concurrency int           `name:"concurrency" env:"PROBE_CONCURRENCY" default:"10" help:"The maximum number of mDNS probes to run concurrently."`
-	UseIPv4     bool          `name:"ipv4" env:"PROBE_USE_IPV4" default:"true" help:"Enable mDNS probing over IPv4. Enabled by default."`
-	IPv4Addr    string        `name:"ipv4.addr" env:"PROBE_IPV4_ADDR" default:"224.0.0.0:5353" help:"IPv4 address to bind to for mDNS probing."`
-	UseIPv6     bool          `name:"ipv6" env:"PROBE_USE_IPV6" default:"true" help:"Enable mDNS probing over IPv6. Enabled by default."`
-	IPv6Addr    string        `name:"ipv6.addr" env:"PROBE_IPV6_ADDR" default:"[FF02::]:5353" help:"IPv6 address to bind to for mDNS probing."`
-	Hosts       []string      `name:"hosts" env:"PROBE_HOSTS" required:"" sep:"," help:"A comma-separated list of mDNS hostnames (e.g., 'mydevice.local,another.local') to check."`
+	Interval    time.Duration `name:"interval"    env:"PROBE_INTERVAL"    default:"30s"            help:"The interval between each full cycle of mDNS host checks (e.g., 1s, 5m, 1h)."`
+	Timeout     time.Duration `name:"timeout"     env:"PROBE_TIMEOUT"     default:"10s"            help:"The maximum duration to wait for an mDNS probe response from a single host (e.g., 1s, 5m, 1h)."`
+	Concurrency int           `name:"concurrency" env:"PROBE_CONCURRENCY" default:"10"             help:"The maximum number of mDNS probes to run concurrently."`
+	UseIPv4     bool          `name:"ipv4"        env:"PROBE_USE_IPV4"    default:"true"           help:"Enable mDNS probing over IPv4. Enabled by default."`
+	IPv4Addr    string        `name:"ipv4.addr"   env:"PROBE_IPV4_ADDR"   default:"224.0.0.0:5353" help:"IPv4 address to bind to for mDNS probing."`
+	UseIPv6     bool          `name:"ipv6"        env:"PROBE_USE_IPV6"    default:"true"           help:"Enable mDNS probing over IPv6. Enabled by default."`
+	IPv6Addr    string        `name:"ipv6.addr"   env:"PROBE_IPV6_ADDR"   default:"[FF02::]:5353"  help:"IPv6 address to bind to for mDNS probing."`
+	Hosts       []string      `name:"hosts"       env:"PROBE_HOSTS"                                help:"A comma-separated list of mDNS hostnames (e.g., 'mydevice.local,another.local') to check."      required:"" sep:","`
 }
 
 type Metrics struct {
 	Addr string `name:"addr" env:"METRICS_ADDR" default:"0.0.0.0:8080" help:"HTTP Address to bind Prometheus metrics"`
-	Path string `name:"path" env:"METRICS_PATH" default:"/metrics" help:"Path to serve Prometheus metrics"`
+	Path string `name:"path" env:"METRICS_PATH" default:"/metrics"     help:"Path to serve Prometheus metrics"`
 }
 
 type Serve struct {
 	Probe    Probe   `embed:"" prefix:"probe."`
 	Metrics  Metrics `embed:"" prefix:"metrics."`
-	LogLevel string  `name:"log.level" env:"LOG_LEVEL" default:"info" help:"Log level (debug, info, warn, error, fatal)"`
+	LogLevel string  `                           name:"log.level" env:"LOG_LEVEL" default:"info" help:"Log level (debug, info, warn, error, fatal)"`
 }
 
 func serve(cli *CLI) error {
@@ -190,7 +190,12 @@ func (t *task) Execute(ctx context.Context) error {
 	})
 
 	if err != nil {
-		t.logger.ErrorContext(ctx, "Failed to execute mdns check", logging.Error(err), slog.Duration("duration", time.Since(now)))
+		t.logger.ErrorContext(
+			ctx,
+			"Failed to execute mdns check",
+			logging.Error(err),
+			slog.Duration("duration", time.Since(now)),
+		)
 	} else {
 		t.logger.InfoContext(ctx, "Finished mdns check", slog.Duration("duration", time.Since(now)))
 	}

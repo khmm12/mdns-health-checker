@@ -19,7 +19,12 @@ type CheckMDNSUseCase struct {
 	timeout   time.Duration
 }
 
-func NewCheckMDNSUseCase(logger *slog.Logger, probe ports.MDNSProbe, publisher ports.MDNSStatePublisher, timeout time.Duration) *CheckMDNSUseCase {
+func NewCheckMDNSUseCase(
+	logger *slog.Logger,
+	probe ports.MDNSProbe,
+	publisher ports.MDNSStatePublisher,
+	timeout time.Duration,
+) *CheckMDNSUseCase {
 	return &CheckMDNSUseCase{
 		logger:    logger,
 		publisher: publisher,

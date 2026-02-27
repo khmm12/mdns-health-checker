@@ -1,4 +1,4 @@
-ARG GO_VERSION="1.25.4"
+ARG GO_VERSION="1.26.0"
 
 FROM --platform=$BUILDPLATFORM golang:${GO_VERSION} AS builder
 
@@ -12,11 +12,11 @@ RUN go mod download
 COPY cmd ./cmd
 COPY internal ./internal
 RUN \
-  GOOS=${TARGETOS} \
-  GOARCH=${TARGETARCH} \
-  GOARM=${TARGETVARIANT#v} \
-  CGO_ENABLED=0 \
-  go build -ldflags "-s -w" -o ./mdns-health-checker ./cmd/mdns-health-checker
+    GOOS=${TARGETOS} \
+    GOARCH=${TARGETARCH} \
+    GOARM=${TARGETVARIANT#v} \
+    CGO_ENABLED=0 \
+    go build -ldflags "-s -w" -o ./mdns-health-checker ./cmd/mdns-health-checker
 
 FROM gcr.io/distroless/static-debian12
 COPY --from=builder /app/mdns-health-checker /

@@ -42,7 +42,8 @@ func TestCheckMDNSUseCase_BubblesUpProbeError(t *testing.T) {
 
 	uc := newTestCheckMDNSUseCase(t, probe, publisher)
 
-	probe.On("Probe", mock.Anything, "printer1.local", 10*time.Second).Return(ports.HostUnknown, errors.New("probe failed"))
+	probe.On("Probe", mock.Anything, "printer1.local", 10*time.Second).
+		Return(ports.HostUnknown, errors.New("probe failed"))
 	probe.On("Probe", mock.Anything, "printer2.local", 10*time.Second).Return(ports.HostUp, nil)
 
 	err := uc.Execute(ctx, CheckMDNSCommand{
@@ -82,7 +83,8 @@ func TestCheckMDNSUseCase_ReturnsErrorWhenPublishingFails(t *testing.T) {
 	probe.On("Probe", mock.Anything, "printer1.local", 10*time.Second).Return(ports.HostUp, nil)
 	probe.On("Probe", mock.Anything, "printer2.local", 10*time.Second).Return(ports.HostDown, nil)
 
-	publisher.On("Publish", mock.Anything, []string{"printer1.local"}, []string{"printer2.local"}).Return(errors.New("publish failed"))
+	publisher.On("Publish", mock.Anything, []string{"printer1.local"}, []string{"printer2.local"}).
+		Return(errors.New("publish failed"))
 
 	err := uc.Execute(ctx, CheckMDNSCommand{
 		Hosts: []string{"printer1.local", "printer2.local"},
@@ -91,7 +93,11 @@ func TestCheckMDNSUseCase_ReturnsErrorWhenPublishingFails(t *testing.T) {
 	require.ErrorContains(t, err, "failed to publish mdns check results")
 }
 
-func newTestCheckMDNSUseCase(t *testing.T, probe ports.MDNSProbe, publisher ports.MDNSStatePublisher) *CheckMDNSUseCase {
+func newTestCheckMDNSUseCase(
+	t *testing.T,
+	probe ports.MDNSProbe,
+	publisher ports.MDNSStatePublisher,
+) *CheckMDNSUseCase {
 	t.Helper()
 
 	return NewCheckMDNSUseCase(
