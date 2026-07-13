@@ -2,16 +2,16 @@ module github.com/khmm12/mdns-health-checker
 
 go 1.26
 
-toolchain go1.26.0
+toolchain go1.26.5
 
 require (
-	github.com/alecthomas/kong v1.14.0
+	github.com/alecthomas/kong v1.15.0
 	github.com/google/uuid v1.6.0
 	github.com/pion/mdns/v2 v2.1.0
 	github.com/prometheus/client_golang v1.23.2
 	github.com/stretchr/testify v1.11.1
-	golang.org/x/net v0.51.0
-	golang.org/x/sync v0.19.0
+	golang.org/x/net v0.57.0
+	golang.org/x/sync v0.22.0
 )
 
 require (
@@ -28,7 +28,7 @@ require (
 	github.com/prometheus/procfs v0.20.0 // indirect
 	github.com/stretchr/objx v0.5.3 // indirect
 	go.yaml.in/yaml/v2 v2.4.3 // indirect
-	golang.org/x/sys v0.41.0 // indirect
+	golang.org/x/sys v0.47.0 // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

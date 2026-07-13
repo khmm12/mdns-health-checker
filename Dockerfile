@@ -1,4 +1,4 @@
-ARG GO_VERSION="1.26.0"
+ARG GO_VERSION="1.26.5"
 
 FROM --platform=$BUILDPLATFORM golang:${GO_VERSION} AS builder
 
@@ -18,6 +18,6 @@ RUN \
     CGO_ENABLED=0 \
     go build -ldflags "-s -w" -o ./mdns-health-checker ./cmd/mdns-health-checker
 
-FROM gcr.io/distroless/static-debian12
+FROM gcr.io/distroless/static-debian13
 COPY --from=builder /app/mdns-health-checker /
 ENTRYPOINT ["/mdns-health-checker"]
