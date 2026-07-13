@@ -74,7 +74,7 @@ type MockMDNSProbe_Probe_Call struct {
 //   - ctx context.Context
 //   - host string
 //   - timeout time.Duration
-func (_e *MockMDNSProbe_Expecter) Probe(ctx interface{}, host interface{}, timeout interface{}) *MockMDNSProbe_Probe_Call {
+func (_e *MockMDNSProbe_Expecter) Probe(ctx any, host any, timeout any) *MockMDNSProbe_Probe_Call {
 	return &MockMDNSProbe_Probe_Call{Call: _e.mock.On("Probe", ctx, host, timeout)}
 }
 
@@ -164,7 +164,7 @@ type MockMDNSStatePublisher_Publish_Call struct {
 //   - ctx context.Context
 //   - up []string
 //   - down []string
-func (_e *MockMDNSStatePublisher_Expecter) Publish(ctx interface{}, up interface{}, down interface{}) *MockMDNSStatePublisher_Publish_Call {
+func (_e *MockMDNSStatePublisher_Expecter) Publish(ctx any, up any, down any) *MockMDNSStatePublisher_Publish_Call {
 	return &MockMDNSStatePublisher_Publish_Call{Call: _e.mock.On("Publish", ctx, up, down)}
 }
 
